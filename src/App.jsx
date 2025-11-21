@@ -209,11 +209,14 @@ const App = () => {
           {/* Header */}
           <div>
             <div className="flex items-center gap-3">
-              <img
-                src={logoUrl}
-                alt="Aspect Flow"
-                className="h-9 w-9 rounded-lg p-1.5 object-contain bg-transparent"
-              />
+              <div className="relative h-9 w-9">
+                <div className="absolute inset-0 rounded-lg bg-violet-500/30 blur-md scale-110" />
+                <img
+                  src={logoUrl}
+                  alt="Aspect Flow"
+                  className="relative z-10 h-9 w-9 rounded-lg p-1.5 object-contain"
+                />
+              </div>
               <h1 className="text-3xl text-white" style={{ fontFamily: '"Stack Sans Headline", sans-serif', fontWeight: 600 }}>
                 Aspect <span className="text-violet-400 drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">Flow</span>
               </h1>
