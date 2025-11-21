@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #050505;
+  /* This applies the font you loaded in HTML */
+  font-family: 'Inter', sans-serif;
+  color: #e5e5e5;
+}
