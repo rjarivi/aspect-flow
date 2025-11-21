@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Copy, ArrowRightLeft, Download, Check, MousePointerClick } from 'lucide-react';
 
 const App = () => {
+  const logoUrl = import.meta.env.BASE_URL + 'AspectFlow.svg';
   // State for Ratio and Dimensions
   const [ratioW, setRatioW] = useState(16);
   const [ratioH, setRatioH] = useState(9);
@@ -207,9 +208,24 @@ const App = () => {
           
           {/* Header */}
           <div>
-            <h1 className="text-3xl text-white" style={{ fontFamily: '"Stack Sans Headline", sans-serif', fontWeight: 600 }}>
-              Aspect <span className="text-violet-400 drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">Flow</span>
-            </h1>
+            <div className="flex items-center gap-3">
+              <div
+                className="h-9 w-9 rounded-lg bg-violet-500/90 shadow-[0_0_15px_rgba(124,58,237,0.35)] p-1.5"
+                style={{
+                  WebkitMaskImage: `url(${logoUrl})`,
+                  maskImage: `url(${logoUrl})`,
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center',
+                }}
+              />
+              <h1 className="text-3xl text-white" style={{ fontFamily: '"Stack Sans Headline", sans-serif', fontWeight: 600 }}>
+                Aspect <span className="text-violet-400 drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">Flow</span>
+              </h1>
+            </div>
             <p className="text-neutral-500 text-sm mt-1">Professional dimension calculator</p>
           </div>
 
