@@ -209,18 +209,10 @@ const App = () => {
           {/* Header */}
           <div>
             <div className="flex items-center gap-3">
-              <div
-                className="h-9 w-9 rounded-lg bg-violet-500/90 shadow-[0_0_15px_rgba(124,58,237,0.35)] p-1.5"
-                style={{
-                  WebkitMaskImage: `url(${logoUrl})`,
-                  maskImage: `url(${logoUrl})`,
-                  WebkitMaskSize: 'contain',
-                  maskSize: 'contain',
-                  WebkitMaskRepeat: 'no-repeat',
-                  maskRepeat: 'no-repeat',
-                  WebkitMaskPosition: 'center',
-                  maskPosition: 'center',
-                }}
+              <img
+                src={logoUrl}
+                alt="Aspect Flow"
+                className="h-9 w-9 rounded-lg p-1.5 object-contain bg-transparent"
               />
               <h1 className="text-3xl text-white" style={{ fontFamily: '"Stack Sans Headline", sans-serif', fontWeight: 600 }}>
                 Aspect <span className="text-violet-400 drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">Flow</span>
