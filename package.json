@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:gh": "vite build --mode gh",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:gh": "vite preview --outDir docs"
   },
   "dependencies": {
     "lucide-react": "^0.554.0",
