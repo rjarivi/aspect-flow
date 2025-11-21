@@ -10,7 +10,7 @@ const App = () => {
   const [pxH, setPxH] = useState(1080);
   
   // UI State
-  
+  const [mode, setMode] = useState('ratio');
   const [copiedField, setCopiedField] = useState(null); // 'w' or 'h'
   const [isHoveringPreview, setIsHoveringPreview] = useState(false);
 
@@ -18,6 +18,17 @@ const App = () => {
   const calcHeight = (w, rW, rH) => Math.round(w / (rW / rH));
   // Calculate Dimensions based on Height anchor
   const calcWidth = (h, rW, rH) => Math.round(h * (rW / rH));
+  const gcd = (a, b) => {
+    let x = Math.abs(Math.floor(a || 0));
+    let y = Math.abs(Math.floor(b || 0));
+    if (!x || !y) return 1;
+    while (y) {
+      const t = x % y;
+      x = y;
+      y = t;
+    }
+    return x;
+  };
 
   // Handlers
   const handleRatioChange = (newW, newH) => {
@@ -25,12 +36,13 @@ const App = () => {
     const h = Number(newH);
     setRatioW(w);
     setRatioH(h);
-    if (w && h && pxW) {
+    if (mode === 'ratio' && w && h && pxW) {
       setPxH(calcHeight(pxW, w, h));
     }
   };
 
   const handlePresetClick = (w, h) => {
+    if (mode !== 'ratio') return;
     setRatioW(w);
     setRatioH(h);
     if (pxW) {
@@ -41,16 +53,32 @@ const App = () => {
   const handlePxWChange = (e) => {
     const val = Number(e.target.value);
     setPxW(val);
-    if (val && ratioW && ratioH) {
-      setPxH(calcHeight(val, ratioW, ratioH));
+    if (mode === 'ratio') {
+      if (val && ratioW && ratioH) {
+        setPxH(calcHeight(val, ratioW, ratioH));
+      }
+    } else {
+      if (val && pxH) {
+        const d = gcd(val, pxH);
+        setRatioW(Math.round(val / d));
+        setRatioH(Math.round(pxH / d));
+      }
     }
   };
 
   const handlePxHChange = (e) => {
     const val = Number(e.target.value);
     setPxH(val);
-    if (val && ratioW && ratioH) {
-      setPxW(calcWidth(val, ratioW, ratioH));
+    if (mode === 'ratio') {
+      if (val && ratioW && ratioH) {
+        setPxW(calcWidth(val, ratioW, ratioH));
+      }
+    } else {
+      if (val && pxW) {
+        const d = gcd(pxW, val);
+        setRatioW(Math.round(pxW / d));
+        setRatioH(Math.round(val / d));
+      }
     }
   };
 
@@ -206,7 +234,6 @@ const App = () => {
         {/* LEFT COLUMN: Controls */}
         <div className="flex-1 p-8 md:p-12 flex flex-col gap-10 z-20">
           
-          {/* Header */}
           <div>
             <div className="flex items-center gap-3">
               <div className="relative h-9 w-9">
@@ -222,9 +249,23 @@ const App = () => {
               </h1>
             </div>
             <p className="text-neutral-500 text-sm mt-1">Professional dimension calculator</p>
+            <div className="mt-4 inline-flex rounded-lg border border-white/10 bg-white/[0.03] overflow-hidden">
+              <button
+                onClick={() => setMode('ratio')}
+                className={`px-3 py-2 text-xs ${mode === 'ratio' ? 'bg-violet-600 text-white' : 'text-neutral-400 hover:bg-white/[0.06]'}`}
+              >
+                Aspect Ratio
+              </button>
+              <button
+                onClick={() => setMode('dimensions')}
+                className={`px-3 py-2 text-xs border-l border-white/10 ${mode === 'dimensions' ? 'bg-violet-600 text-white' : 'text-neutral-400 hover:bg-white/[0.06]'}`}
+              >
+                Dimensions
+              </button>
+            </div>
           </div>
 
-          {/* RATIO SECTION */}
+          {mode === 'ratio' && (
           <div className="space-y-4">
             <div className="flex justify-between items-end">
               <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Aspect Ratio</label>
@@ -273,10 +314,10 @@ const App = () => {
               ))}
             </div>
           </div>
+          )}
 
           <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent w-full"></div>
 
-          {/* DIMENSIONS SECTION */}
           <div className="space-y-4">
             <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Pixel Dimensions</label>
             
@@ -323,6 +364,13 @@ const App = () => {
                 <div className="text-xs text-neutral-500 mt-2 text-center">Height</div>
               </div>
             </div>
+
+            {mode === 'dimensions' && (
+              <div className="mt-2 text-center">
+                <span className="text-xs text-neutral-500">Aspect Ratio: </span>
+                <span className="text-sm font-mono text-white">{ratioW} : {ratioH}</span>
+              </div>
+            )}
           </div>
 
         </div>
